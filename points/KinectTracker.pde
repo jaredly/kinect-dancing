@@ -81,7 +81,7 @@ class KinectTracker {
     return loc;
   }
 
-  void display() {
+  void getThreshholdedImage(PImage target) {
     PImage img = kinect.getDepthImage();
 
     // Being overly cautious here
@@ -89,24 +89,31 @@ class KinectTracker {
 
     // Going to rewrite the depth image to show which pixels are in threshold
     // A lot of this is redundant, but this is just for demonstration purposes
-    display.loadPixels();
+    target.loadPixels();
     for (int x = 0; x < kinect.width; x++) {
       for (int y = 0; y < kinect.height; y++) {
 
         int offset = x + y * kinect.width;
         // Raw depth
         int rawDepth = depth[offset];
-        int pix = x + y * display.width;
+        int pix = x + y * target.width;
         if (rawDepth < threshold) {
           // A red color instead
-          display.pixels[pix] = color(150, 50, 50);
+          target.pixels[pix] = color(150, 50, 50);
         } else {
-          display.pixels[pix] = img.pixels[offset];
+          target.pixels[pix] = color(0,0,0);//img.pixels[offset];
         }
       }
     }
-    display.updatePixels();
+    target.updatePixels();
+  }
+  
+  void updateThreshholdedImage() {
+    getThreshholdedImage(display);
+  }
 
+  void display() {
+    //updateThreshholdedImage();
     // Draw the image
     image(display, 0, 0);
   }

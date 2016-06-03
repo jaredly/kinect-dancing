@@ -37,6 +37,7 @@ class Particle {
   PVector velocity;
   PVector acceleration;
   float lifespan;
+  float size = 0;
 
   Particle(PVector l, float lifespan) {
     acceleration = new PVector(0,0.05);
@@ -55,13 +56,14 @@ class Particle {
     velocity.add(acceleration);
     location.add(velocity);
     lifespan -= 1.0;
+    size += 0.2;
   }
 
   // Method to display
   void display() {
     stroke(255,lifespan);
     fill(255,lifespan);
-    ellipse(location.x,location.y,8,8);
+    ellipse(location.x,location.y,size,size);
   }
   
   // Is the particle still useful?
