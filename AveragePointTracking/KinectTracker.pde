@@ -22,19 +22,45 @@ class KinectTracker {
   
   // What we'll show the user
   PImage display;
-   
+  int[] nows;
+  int[] prev;
+  boolean loaded = false;
+  
   KinectTracker(float lerpAmount, int threshhold) {
     this.threshold = threshhold;
     this.lerpAmount = lerpAmount;
     // This is an awkard use of a global variable here
     // But doing it this way for simplicity
     kinect.initDepth();
-    kinect.enableMirror(true);
+    //kinect.enableMirror(true);
     // Make a blank image
     display = createImage(kinect.width, kinect.height, RGB);
     // Set up the vectors
     loc = new PVector(0, 0);
     lerpedLoc = new PVector(0, 0);
+  }
+
+  ArrayList<PVector> diffs() {
+    nows = kinect.getRawDepth();
+    ArrayList<PVector> result = new ArrayList();
+    if (!loaded) {
+      prev = nows;
+      loaded = true;
+      return result;
+    }
+    
+    for (int x = 0; x < kinect.width; x++) {
+      for (int y = 0; y < kinect.height; y++) {
+        int offset =  x + y*kinect.width;
+        int rawDepth = nows[offset];
+        int oldDepth = prev[offset];
+        if ((rawDepth < threshold) != (oldDepth < threshold)) {
+          result.add(new PVector(x, y));
+        }
+      }
+    }
+    prev = nows;
+    return result;
   }
 
   void track() {

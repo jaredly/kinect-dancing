@@ -17,13 +17,20 @@ class ParticleSystem {
     particles.add(new Particle(origin, this.lifespan));
   }
 
-  void run() {
+  void update() {
     for (int i = particles.size()-1; i >= 0; i--) {
       Particle p = particles.get(i);
-      p.run();
+      p.update();
       if (p.isDead()) {
         particles.remove(i);
       }
+    }
+  }
+
+  void display(float ox, float oy) {
+    for (int i = particles.size()-1; i >= 0; i--) {
+      Particle p = particles.get(i);
+      p.display(ox, oy);
     }
   }
 }
@@ -46,11 +53,6 @@ class Particle {
     this.lifespan = lifespan; // used to be 255.0
   }
 
-  void run() {
-    update();
-    display();
-  }
-
   // Method to update location
   void update() {
     velocity.add(acceleration);
@@ -60,10 +62,10 @@ class Particle {
   }
 
   // Method to display
-  void display() {
+  void display(float ox, float oy) {
     stroke(255,lifespan);
     fill(255,lifespan);
-    ellipse(location.x,location.y,size,size);
+    ellipse(location.x + ox,location.y + oy,size,size);
   }
   
   // Is the particle still useful?

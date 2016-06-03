@@ -10,7 +10,14 @@ import org.openkinect.processing.*;
 import blobDetection.*;
 import java.awt.Polygon;
 import java.util.Collections;
-
+//import toxi.geom.*;
+//import toxi.physics2d.*;
+import toxi.geom.*;
+import toxi.processing.*;
+import shiffman.box2d.*;
+import org.jbox2d.collision.shapes.*; // jbox2d
+import org.jbox2d.common.*; // jbox2d
+import org.jbox2d.dynamics.*; // jbox2d
 
 BlobDetection blobs;
 PImage blobImage;
@@ -20,22 +27,31 @@ PolygonBlob poly;
 KinectTracker tracker;
 Kinect kinect;
 boolean debug = true;
-int scaleFactor = 3;
-int reScale = 2;
+float scaleFactor = 3;
+float reScale = 1;
 
 void setup() {
-  size(1280, 1040);
+  //size(1280, 1020);
+  fullScreen(1);
   smooth();
+  kinect = new Kinect(this);
+  //kinect.enableMirror(true);
+  //reScale = height / kinect.height;
+  scaleFactor = float(height) / float(kinect.height);
   // pref defaul: 0.3f;
   // Close: 700
   // Wall: 925
   tracker = new KinectTracker(0.03f, 925);
+  /*
   blobs = new BlobDetection(kinect.width/scaleFactor, kinect.height/scaleFactor);
   blobs.setThreshold(0.2);
   blobImage = new PImage(kinect.width/scaleFactor, kinect.height/scaleFactor, RGB);
   poly = new PolygonBlob();
+  */
 
-  ex2_poly_flow_setup();
+  ex1_sparkler_setup();
+  //ex2_poly_flow_setup();
+  //ex2_poly_phys_setup();
 }
 
 
@@ -43,26 +59,25 @@ void draw() {
   // Run the tracking analysis
   tracker.track();
 
-  updateBlobPoly();
-
   background(0);
+  //pushMatrix();
+  //scale(-1, 1);
+  //translate(-width, 0);
+
+  //updateBlobPoly();
+
+
+  //image(kinect.getDepthImage(), 0, 0);
+  tracker.updateThreshholdedImage();
   //image(tracker.display, 0, 0);
   if (debug) {
-    image(blobImage, 0, 0);
-    fill(0, 255, 0, 250.0f);
-    beginShape();
-    for (int i=0; i<poly.npoints; i++) {
-      vertex(poly.xpoints[i], poly.ypoints[i]);
-    }
-    endShape(CLOSE);
+    debugDraw();
   }
 
-  if (debug) {
-    //debugDraw();
-  }
-
-  //ex1_sparkler_draw();
-  ex2_poly_flow_draw();
+  ex1_sparkler_draw();
+  //ex2_poly_flow_draw();
+  //ex2_poly_phys_draw();
+  //popMatrix();
 }
 
 void updateBlobPoly() {
@@ -73,8 +88,6 @@ void updateBlobPoly() {
     0, 0, blobImage.width, blobImage.height);
   blobImage.filter(BLUR);
   blobs.computeBlobs(blobImage.pixels);
-  poly.reset();
-  poly.createPolygon(blobs, kinect.width, kinect.height);
 }
 
 // Adjust the threshold with key presses

@@ -1,4 +1,4 @@
-
+Polygon2D p;
 // background color
 color bgColor;
 // three color palettes (artifact from me storing many interesting color palettes as strings in an external data file ;-)
@@ -22,9 +22,24 @@ void ex2_poly_flow_setup() {
 }
 
 void ex2_poly_flow_draw() {
+  
+  poly.reset();
+  poly.createPolygon(blobs, kinect.width, kinect.height);
+  
+  
+  if (debug) {
+    image(blobImage, 0, 0);
+    fill(0, 255, 0, 250.0f);
+    beginShape();
+    for (int i=0; i<poly.npoints; i++) {
+      vertex(poly.xpoints[i], poly.ypoints[i]);
+    }
+    endShape(CLOSE);
+  }
+  
   // center and reScale from Kinect to custom dimensions
-  translate(0, (height-kinect.height*reScale)/2);
-  scale(reScale);
+  //translate(0, (height-kinect.height*reScale)/2);
+  scale(2);
   // set global variables that influence the particle flow's movement
   float globalX = noise(frameCount * 0.01) * width/2 + width/4;
   float globalY = noise(frameCount * 0.005 + 5) * height;
