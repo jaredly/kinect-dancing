@@ -10,6 +10,7 @@ import org.openkinect.processing.*;
 import blobDetection.*;
 import java.awt.Polygon;
 import java.util.Collections;
+import java.util.Arrays;
 //import toxi.geom.*;
 //import toxi.physics2d.*;
 import toxi.geom.*;
@@ -29,6 +30,9 @@ Kinect kinect;
 boolean debug = true;
 float scaleFactor = 3;
 float reScale = 1;
+int dx = 0;
+int dy = 0;
+float ss = 1;
 
 void setup() {
   //size(1280, 1020);
@@ -41,7 +45,7 @@ void setup() {
   // pref defaul: 0.3f;
   // Close: 700
   // Wall: 925
-  tracker = new KinectTracker(0.03f, 925);
+  tracker = new KinectTracker(0.03f, 1035);
   /*
   blobs = new BlobDetection(kinect.width/scaleFactor, kinect.height/scaleFactor);
   blobs.setThreshold(0.2);
@@ -73,8 +77,20 @@ void draw() {
   if (debug) {
     debugDraw();
   }
+  
+  ArrayList<PVector> news = tracker.diffs();
+  println("Got " + news.size());
+  for (int i=0; i<news.size(); i++) {
+    if (i % 5 == 0) {
+      PVector p = news.get(i);
+      
+      stroke(255);
+      fill(255);
+      ellipse((p.x * scaleFactor + dx * 10) * ss, (p.y * scaleFactor + dy * 10) * ss,12,12);
+    }
+  }
 
-  ex1_sparkler_draw();
+  //ex1_sparkler_draw();
   //ex2_poly_flow_draw();
   //ex2_poly_phys_draw();
   //popMatrix();
@@ -95,14 +111,24 @@ void keyPressed() {
   int t = tracker.getThreshold();
   if (key == CODED) {
     if (keyCode == UP) {
-      t+=5;
-      tracker.setThreshold(t);
+      dy -= 1;
+      //t+=5;
+      //tracker.setThreshold(t);
     } else if (keyCode == DOWN) {
-      t-=5;
-      tracker.setThreshold(t);
+      dy += 1;
+      //t-=5;
+      //tracker.setThreshold(t);
+    } else if (keyCode == LEFT) {
+      dx -= 1;
+    } else if (keyCode == RIGHT) {
+      dx += 1;
     }
   } else if (key == 'd') {
     //background(0);
     debug = !debug;
+  } else if (key == 'a') {
+    ss += 0.01;
+  } else if (key == 's') {
+    ss -= 0.01;
   }
 }

@@ -38,13 +38,15 @@ class KinectTracker {
     // Set up the vectors
     loc = new PVector(0, 0);
     lerpedLoc = new PVector(0, 0);
+    nows = new int[kinect.width * kinect.height];
+    prev = new int[kinect.width * kinect.height];
   }
 
   ArrayList<PVector> diffs() {
     nows = kinect.getRawDepth();
     ArrayList<PVector> result = new ArrayList();
     if (!loaded) {
-      prev = nows;
+      arrayCopy(nows, prev);
       loaded = true;
       return result;
     }
@@ -54,12 +56,15 @@ class KinectTracker {
         int offset =  x + y*kinect.width;
         int rawDepth = nows[offset];
         int oldDepth = prev[offset];
+        if (rawDepth < threshold && oldDepth > threshold) {
+          result.add(new PVector(x, y));
+        } else 
         if ((rawDepth < threshold) != (oldDepth < threshold)) {
           result.add(new PVector(x, y));
         }
       }
     }
-    prev = nows;
+    arrayCopy(nows, prev);
     return result;
   }
 
