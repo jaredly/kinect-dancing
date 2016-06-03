@@ -1,6 +1,8 @@
 
 
 void debugDraw() {
+  
+  background(255);
   // Show the image
   tracker.display();
   // Let's draw the raw location
