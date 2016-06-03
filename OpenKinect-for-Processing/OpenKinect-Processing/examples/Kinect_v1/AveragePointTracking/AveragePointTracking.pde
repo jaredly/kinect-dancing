@@ -30,14 +30,15 @@ void draw() {
     background(255);
     debugDraw();
   } else {
-    //background(0);
     fill(0,2.0f);
     rect(0,0,width,height);
-    //background(255,1.0f);
   }
-
-  ps.origin = tracker.getLerpedPos();
-  ps.addParticle();
+  PVector lerpedPos = tracker.getLerpedPos();
+  //for (int i=0; i<10; i++) {
+    PVector off = new PVector(random(-1.0, 1.0) * 15, random(-1.0, 1.0) * 15);
+    ps.origin = lerpedPos.copy().add(off);
+    ps.addParticle();
+  //}
   ps.run();
 }
 
