@@ -61,9 +61,9 @@ class Particle {
     size += 0.2;
   }
 
-  void display(float ox, float oy) {
-    stroke(255, lifespan);
-    fill(255, lifespan);
+  void display(float ox, float oy, color fillColor) {
+    noStroke();
+    fill(fillColor, lifespan);
     ellipse(location.x + ox, location.y + oy, size, size);
   }
   

@@ -1,14 +1,6 @@
 
 ParticleSystem ps;
 
-// ----------
-// - Config -
-// ----------
-
-int numberOfSparklers = 5;
-int radiusFromCenter = 100;
-int newParticlesPerTick = 10;
-
 
 // ----------
 
@@ -17,6 +9,15 @@ void ex1_sparkler_setup() {
 }
 
 void ex1_sparkler_draw() {
+  // ----------
+  // - Config -
+  // ----------
+  
+  int numberOfSparklers = 5;
+  int radiusFromCenter = 100;
+  int newParticlesPerTick = 10;
+  color fillColor = color(255, 255, 255);
+  
   PVector lerpedPos = tracker.getLerpedPos();
   ps.origin = new PVector(lerpedPos.x * scaleFactor, lerpedPos.y * scaleFactor);
   for (int i=0; i<newParticlesPerTick; i++) {
@@ -27,6 +28,6 @@ void ex1_sparkler_draw() {
     float rot = PI * 2 / numberOfSparklers * i;
     float x = cos(rot) * radiusFromCenter;
     float y = sin(rot) * radiusFromCenter;
-    ps.display(x, y);
+    ps.display(x, y, fillColor);
   }
 }
