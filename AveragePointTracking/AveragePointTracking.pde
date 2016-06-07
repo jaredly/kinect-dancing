@@ -15,10 +15,10 @@ import java.util.Arrays;
 //import toxi.physics2d.*;
 import toxi.geom.*;
 import toxi.processing.*;
-import shiffman.box2d.*;
-import org.jbox2d.collision.shapes.*; // jbox2d
-import org.jbox2d.common.*; // jbox2d
-import org.jbox2d.dynamics.*; // jbox2d
+//import shiffman.box2d.*;
+//import org.jbox2d.collision.shapes.*; // jbox2d
+//import org.jbox2d.common.*; // jbox2d
+//import org.jbox2d.dynamics.*; // jbox2d
 
 BlobDetection blobs;
 PImage blobImage;
