@@ -5,6 +5,8 @@ void debugDraw() {
   background(100);
   // Show the image
   tracker.display();
+  
+  image(kinect.getDepthImage(), width - kinect.width, 0);
   // Let's draw the raw location
   PVector v1 = tracker.getPos();
   fill(50, 100, 250, 200);
@@ -22,4 +24,5 @@ void debugDraw() {
   fill(0);
   text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
     "UP increase threshold, DOWN decrease threshold", 10, 500);
+   
 }

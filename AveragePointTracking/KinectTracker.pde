@@ -132,7 +132,9 @@ class KinectTracker {
           // A red color instead
           target.pixels[pix] = color(150, 50, 50);
         } else {
-          target.pixels[pix] = color(0,0,0);//img.pixels[offset];
+          // If you want all else to be black
+          target.pixels[pix] = color(0,0,0);
+          // target.pixels[pix] = img.pixels[offset];
         }
       }
     }

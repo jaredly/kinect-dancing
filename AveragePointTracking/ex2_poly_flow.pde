@@ -1,3 +1,9 @@
+
+BlobDetection blobs;
+PImage blobImage;
+PolygonBlob poly;
+
+
 Polygon2D p;
 // background color
 color bgColor;
@@ -11,6 +17,12 @@ String[] palettes = {
 NoisyParticle[] flow = new NoisyParticle[2250];
 
 void ex2_poly_flow_setup() {
+  
+  blobs = new BlobDetection(int(kinect.width/scaleFactor), int(kinect.height/scaleFactor));
+  blobs.setThreshold(0.2);
+  blobImage = createImage(int(kinect.width/scaleFactor), int(kinect.height/scaleFactor), RGB);
+  poly = new PolygonBlob();
+  
   // set stroke weight (for particle display) to 2.5
   strokeWeight(2.5);
   // initialize all particles in the flow
@@ -22,6 +34,7 @@ void ex2_poly_flow_setup() {
 }
 
 void ex2_poly_flow_draw() {
+  updateBlobPoly();
   
   poly.reset();
   poly.createPolygon(blobs, kinect.width, kinect.height);
@@ -49,6 +62,17 @@ void ex2_poly_flow_draw() {
   }
   // set the colors randomly every 240th frame
   setRandomColors(240);
+}
+
+
+void updateBlobPoly() {
+  // blob detection!
+  tracker.updateThreshholdedImage();
+  blobImage.copy(tracker.display,
+    0, 0, tracker.display.width, tracker.display.height,
+    0, 0, blobImage.width, blobImage.height);
+  blobImage.filter(BLUR);
+  blobs.computeBlobs(blobImage.pixels);
 }
 
 // sets the colors every nth frame
