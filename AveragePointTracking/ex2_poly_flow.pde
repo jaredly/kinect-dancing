@@ -1,10 +1,4 @@
 
-BlobDetection blobs;
-PImage blobImage;
-PolygonBlob poly;
-
-
-Polygon2D p;
 // background color
 color bgColor;
 // three color palettes (artifact from me storing many interesting color palettes as strings in an external data file ;-)
@@ -17,17 +11,13 @@ String[] palettes = {
 NoisyParticle[] flow = new NoisyParticle[2250];
 
 void ex2_poly_flow_setup() {
-  
-  blobs = new BlobDetection(int(kinect.width/scaleFactor), int(kinect.height/scaleFactor));
-  blobs.setThreshold(0.2);
-  blobImage = createImage(int(kinect.width/scaleFactor), int(kinect.height/scaleFactor), RGB);
-  poly = new PolygonBlob();
+  setupBlobPoly();
   
   // set stroke weight (for particle display) to 2.5
   strokeWeight(2.5);
   // initialize all particles in the flow
   for(int i=0; i<flow.length; i++) {
-    flow[i] = new NoisyParticle(i/10000.0, poly, kinect.width, kinect.height);
+    flow[i] = new NoisyParticle(i/10000.0, kinect.width, kinect.height);
   }
   // set all colors randomly now
   setRandomColors(1);
@@ -36,43 +26,20 @@ void ex2_poly_flow_setup() {
 void ex2_poly_flow_draw() {
   updateBlobPoly();
   
-  poly.reset();
-  poly.createPolygon(blobs, kinect.width, kinect.height);
-  
-  
   if (debug) {
-    image(blobImage, 0, 0);
-    fill(0, 255, 0, 250.0f);
-    beginShape();
-    for (int i=0; i<poly.npoints; i++) {
-      vertex(poly.xpoints[i], poly.ypoints[i]);
-    }
-    endShape(CLOSE);
+    debugShowBlobPoly();
   }
   
-  // center and reScale from Kinect to custom dimensions
-  //translate(0, (height-kinect.height*reScale)/2);
-  scale(2);
+  // scale(2);
   // set global variables that influence the particle flow's movement
   float globalX = noise(frameCount * 0.01) * width/2 + width/4;
   float globalY = noise(frameCount * 0.005 + 5) * height;
   // update and display all particles in the flow
   for (NoisyParticle p : flow) {
-    p.updateAndDisplay(globalX, globalY);
+    p.updateAndDisplay(poly, globalX, globalY, scaleFactor);
   }
   // set the colors randomly every 240th frame
   setRandomColors(240);
-}
-
-
-void updateBlobPoly() {
-  // blob detection!
-  tracker.updateThreshholdedImage();
-  blobImage.copy(tracker.display,
-    0, 0, tracker.display.width, tracker.display.height,
-    0, 0, blobImage.width, blobImage.height);
-  blobImage.filter(BLUR);
-  blobs.computeBlobs(blobImage.pixels);
 }
 
 // sets the colors every nth frame

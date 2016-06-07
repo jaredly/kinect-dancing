@@ -3,19 +3,17 @@ class NoisyParticle {
   // unique id, (previous) position, speed
   float id, x, y, xp, yp, s, d;
   color col; // color
-  Polygon poly;
   float kinectWidth;
   float kinectHeight;
   
-  NoisyParticle(float id, Polygon poly, float kinectWidth, float kinectHeight) {
+  NoisyParticle(float id, float kinectWidth, float kinectHeight) {
     this.id = id;
-    this.poly = poly;
     this.kinectWidth = kinectWidth;
     this.kinectHeight = kinectHeight;
     s = random(2, 6); // speed
   }
   
-  void updateAndDisplay(float globalX, float globalY) {
+  void updateAndDisplay(Polygon poly, float globalX, float globalY, float scaleFactor) {
     // let it flow, end with a new x and y position
     id += 0.01;
     d = (noise(id, x/globalY, y/globalY)-0.5)*globalX;
@@ -45,7 +43,7 @@ class NoisyParticle {
     // individual particle color
     stroke(col);
     // line from previous to current position
-    line(xp, yp, x, y);
+    line(xp * scaleFactor, yp * scaleFactor, x * scaleFactor, y * scaleFactor);
     
     // set previous to current position
     xp=x;

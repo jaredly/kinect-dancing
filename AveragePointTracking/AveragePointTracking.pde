@@ -28,7 +28,7 @@ void setup() {
   // Close: 700
   // Wall: 925
   // Far wall: 1035
-  tracker = new KinectTracker(0.03f, 400);
+  tracker = new KinectTracker(0.3f, 900);
 
   if (current == 1) {
     ex1_sparkler_setup();
@@ -59,10 +59,12 @@ void draw() {
 
   if (current == 1) {
     ex1_sparkler_draw();
-  } else if(current == 2) {
+  } else if (current == 2) {
     ex2_poly_flow_draw();
   } else if (current == 3) {
     ex3_outline_draw();
+  } else if (current == 4) {
+    ex4_motion_draw();
   }
   
   popMatrix();
@@ -111,5 +113,8 @@ void keyPressed() {
   } else if (key == '3' && current != 3) {
     ex3_outline_setup();
     current = 3;
+  } else if (key == '4' && current != 4) {
+    ex4_motion_setup();
+    current = 4;
   }
 }
