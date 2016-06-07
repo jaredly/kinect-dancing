@@ -1,5 +1,5 @@
-// Daniel Shiffman
 
+import blobscanner.*;
 import org.openkinect.processing.*;
 import blobDetection.*;
 import java.awt.Polygon;

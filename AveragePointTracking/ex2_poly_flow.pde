@@ -36,7 +36,7 @@ void ex2_poly_flow_draw() {
   float globalY = noise(frameCount * 0.005 + 5) * height;
   // update and display all particles in the flow
   for (NoisyParticle p : flow) {
-    p.updateAndDisplay(poly, globalX, globalY, scaleFactor);
+    //p.updateAndDisplay(poly, globalX, globalY, scaleFactor);
   }
   // set the colors randomly every 240th frame
   setRandomColors(240);

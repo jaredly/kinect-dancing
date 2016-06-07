@@ -10,6 +10,7 @@ void ex3_outline_draw() {
     debugShowBlobPoly();
   }
 
+  /*
   int points = poly.xpoints.length;
   int maxPoints = 100;
   int skiperdie = 1;
@@ -23,4 +24,5 @@ void ex3_outline_draw() {
       ellipse(poly.xpoints[i] * scaleFactor, poly.ypoints[i] * scaleFactor, 12, 12);
     }
   }
+  */
 }
