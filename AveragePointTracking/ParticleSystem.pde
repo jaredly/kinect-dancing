@@ -50,7 +50,7 @@ class Particle {
     acceleration = new PVector(0,0.05);
     velocity = new PVector(random(-1,1),random(-2,0));
     location = l.copy();
-    this.lifespan = lifespan; // used to be 255.0
+    this.lifespan = lifespan;
   }
 
   // Method to update location
@@ -61,14 +61,12 @@ class Particle {
     size += 0.2;
   }
 
-  // Method to display
   void display(float ox, float oy) {
-    stroke(255,lifespan);
-    fill(255,lifespan);
-    ellipse(location.x + ox,location.y + oy,size,size);
+    stroke(255, lifespan);
+    fill(255, lifespan);
+    ellipse(location.x + ox, location.y + oy, size, size);
   }
   
-  // Is the particle still useful?
   boolean isDead() {
     if (lifespan < 0.0) {
       return true;

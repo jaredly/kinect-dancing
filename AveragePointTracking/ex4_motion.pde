@@ -1,23 +1,29 @@
 
 void ex4_motion_setup() {
+  // nothing here...
 }
 
 
 void ex4_motion_draw() {
-  ArrayList<PVector> news = tracker.diffs();
-  // println("Got " + news.size());
+  
+  // ----------
+  // - Config -
+  // ----------
+  
+  color fillColor = color(255, 255, 255);
   int maxPoints = 100;
+  int pointSize = 12;
+
+  // ----------
+  ArrayList<PVector> news = tracker.diffs();
   int skiperdie = 1;
   if (news.size() > maxPoints) {
     skiperdie = int(news.size() / maxPoints);
   }
-  for (int i=0; i<news.size(); i++) {
-    if (i % skiperdie == 0) {
+  noStroke();
+  fill(fillColor);
+  for (int i=0; i<news.size(); i+=skiperdie) {
       PVector p = news.get(i);
-      
-      stroke(255);
-      fill(255);
-      ellipse((p.x * scaleFactor), (p.y * scaleFactor), 12, 12);
-    }
+      ellipse(p.x * scaleFactor, p.y * scaleFactor, pointSize, pointSize);
   }
 }

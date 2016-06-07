@@ -4,25 +4,32 @@ void ex3_outline_setup() {
 }
 
 void ex3_outline_draw() {
+  
+  // ----------
+  // - Config -
+  // ----------
+  
+  color fillColor = color(255, 255, 255);
+  int maxPoints = 100;
+  int pointSize = 12;
+  
+  
+  // ----------
   updateBlobPoly();
   
   if (debug) {
     debugShowBlobPoly();
   }
 
-  /*
   int points = poly.xpoints.length;
-  int maxPoints = 100;
   int skiperdie = 1;
   if (points > maxPoints) {
     skiperdie = int(points / maxPoints);
   }
-  for (int i=0; i<points; i++) {
-    if (i % skiperdie == 0) {
-      stroke(255);
-      fill(255);
-      ellipse(poly.xpoints[i] * scaleFactor, poly.ypoints[i] * scaleFactor, 12, 12);
-    }
+
+  noStroke();
+  fill(fillColor);
+  for (int i=0; i<points; i+=skiperdie) {
+    ellipse(poly.xpoints[i] * scaleFactor, poly.ypoints[i] * scaleFactor, pointSize, pointSize);
   }
-  */
 }

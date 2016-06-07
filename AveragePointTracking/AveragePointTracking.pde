@@ -19,15 +19,10 @@ int dy = 0;
 float ss = 1;
 
 void setup() {
-  //size(1280, 1020);
   fullScreen(1);
   smooth();
   kinect = new Kinect(this);
   scaleFactor = float(height) / float(kinect.height);
-  // pref defaul: 0.3f;
-  // Close: 700
-  // Wall: 925
-  // Far wall: 1035
   tracker = new KinectTracker(0.3f, 900);
 
   if (current == 1) {
@@ -36,19 +31,17 @@ void setup() {
     ex2_poly_flow_setup();
   } else if (current == 3) {
     ex3_outline_setup();
+  } else if (current == 4) {
+    ex4_motion_setup();
   }
 }
 
 
 void draw() {
-  // Run the tracking analysis
   tracker.track();
 
   background(0);
-
-  //image(kinect.getDepthImage(), 0, 0);
   tracker.updateThreshholdedImage();
-  //image(tracker.display, 0, 0);
   if (debug) {
     debugDraw();
   }
@@ -68,10 +61,6 @@ void draw() {
   }
   
   popMatrix();
-
-  //ex1_sparkler_draw();
-  //ex2_poly_flow_draw();
-  //ex2_poly_phys_draw();
 }
 
 
